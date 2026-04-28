@@ -29,7 +29,7 @@ Dự án đề xuất xây dựng một bản đồ số giúp tổng hợp và 
 - Người dân: Tra cứu chỉ số đáng sống theo từng khu vực, tìm kiếm không gian xanh
 - Nhà quản lý: Theo dõi toàn diện về hạ tầng kỹ thuật và môi trường để điều phối
 
- # Nguồn dữ liệu & liên kết
+ ## Nguồn dữ liệu & liên kết
  - Hạ tầng công cộng và tiện ích xung quanh (bệnh viện, trường học, cửa hàng tiện lợi, công viên, siêu thị,...). Sử dụng nguồn dữ liệu là OpenStreetMap Overpass.
  - Giao thông khu vực (mật độ giao thông, mức độ ùn tắc. Sử dụng GTFS datasets, các dịch vụ bản đồ)
  - Môi trường không khí (AQI, mức độ ô nhiễm). Nguồn sử dụng là OpenAQ và được mô tả bằng ontology SOSA/SSN
