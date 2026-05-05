@@ -44,8 +44,8 @@ Dự án đề xuất xây dựng một bản đồ số giúp tổng hợp và 
 
 | Tính năng | Mô tả |
 |----------|------|
-| Bản đồ Chất lượng sống | Hiển thị các lớp dữ liệu tích hợp gồm: AQI, không gian xanh, hạ tầng công cộng, tiện ích xung quanh, mật độ dân cư và chi phí sinh hoạt. |
-| Điểm số Chất lượng sống | Tính toán và hiển thị điểm đánh giá tổng hợp dựa trên nhiều tiêu chí khác nhau. |
+| Bản đồ chất lượng sống | Hiển thị các lớp dữ liệu tích hợp gồm: AQI, không gian xanh, hạ tầng công cộng, tiện ích xung quanh, mật độ dân cư và chi phí sinh hoạt. |
+| Điểm số chất lượng sống | Tính toán và hiển thị điểm đánh giá tổng hợp dựa trên nhiều tiêu chí khác nhau. |
 | Tiện ích xung quanh | Hiển thị khả năng tiếp cận đến bệnh viện, trường học, trung tâm mua sắm và dịch vụ công cộng. |
 | Phân tích Không gian xanh | Đánh giá mật độ cây xanh, công viên và khoảng cách đến khu vực xanh gần nhất. |
 | Giao thông & Mật độ | Hiển thị tình trạng giao thông và mật độ dân cư theo từng khu vực. |
@@ -68,20 +68,53 @@ Dự án đề xuất xây dựng một bản đồ số giúp tổng hợp và 
 
 ## Kiến trúc hệ thống 
 
-A. Lớp tích hợp dữ liệu 
+### A. Lớp tích hợp dữ liệu 
 Đây là nơi thu thập và chuẩn hóa dữ liệu từ các nguồn mở khác nhau:
-- Dữ liệu Môi trường: Thu thập từ OpenAQ thông qua API. Các quan sát về AQI được mô hình hóa theo ontology SOSA/SSN để mô tả chi tiết các cảm biến và kết quả quan sát
-- Dữ liệu Hạ tầng & Tiện ích: Khai thác từ OpenStreetMap (OSM) Overpass API. Các thực thể địa lý (công viên, bệnh viện...) được định danh bằng mã URI duy nhất
-- Dữ liệu Kinh tế - Xã hội: Truy vấn từ Wikidata qua SPARQL endpoint để lấy thông tin về mật độ dân cư và giá thành khu vực
-- Dữ liệu Giao thông: Tích hợp các bộ dữ liệu GTFS thực tế
+- Dữ liệu môi trường: Thu thập từ OpenAQ thông qua API. Các quan sát về AQI được mô hình hóa theo ontology SOSA/SSN để mô tả chi tiết các cảm biến và kết quả quan sát
+- Dữ liệu hạ tầng & Tiện ích: Khai thác từ OpenStreetMap (OSM) Overpass API. Các thực thể địa lý (công viên, bệnh viện...) được định danh bằng mã URI duy nhất
+- Dữ liệu kinh tế - Xã hội: Truy vấn từ Wikidata qua SPARQL endpoint để lấy thông tin về mật độ dân cư và giá thành khu vực
+- Dữ liệu giao thông: Tích hợp các bộ dữ liệu GTFS thực tế
 
-B. Lớp tri thức và lưu trữ 
+### B. Lớp tri thức và lưu trữ 
 - Chuẩn hóa dữ liệu: Sử dụng định dạng JSON-LD/RDF để lưu trữ. Mọi dữ liệu đều tuân thủ các mô hình chuẩn từ FiWARE Smart Data Models
 - Cơ chế liên kết (Linking): Thiết lập các mối quan hệ ngữ nghĩa giữa các nguồn dữ liệu (Ví dụ: Liên kết một tọa độ từ OSM với trạm đo AQI gần nhất từ OpenAQ và thông tin dân cư từ Wikidata) để đạt LOD mức độ 5
 
 - API Giao tiếp: Xây dựng cổng chia sẻ dữ liệu dựa trên tiêu chuẩn NGSI-LD của ETSI, cho phép truy xuất dữ liệu đô thị theo ngữ cảnh thời gian thực
 
-C. Lớp ứng dụng và trình diễn 
-- Web/Mobile App: Giao diện tương tác cho Người dân (Bản đồ xanh, Gợi ý cá nhân hóa) và Dashboard cho Nhà quản lý (Phân tích xu hướng, Hỗ trợ quy hoạch)
+### C. Lớp ứng dụng  
+- Mobile app: Giao diện tương tác cho Người dân (Bản đồ xanh, Gợi ý cá nhân hóa) và Dashboard cho Nhà quản lý (Phân tích xu hướng, Hỗ trợ quy hoạch)
 - Cổng truy vấn SPARQL: Cung cấp điểm cuối (endpoint) cho phép các Nhà phát triển thực hiện các truy vấn tri thức phức tạp liên miền
+
+## Yêu cầu hệ thống
+
+### A. Môi trường vận hành
+- Hệ điều hành: Hỗ trợ đa nền tảng (Windows 10/11, macOS, hoặc Linux Ubuntu 22.04 trở lên)
+- Nền tảng ảo hóa: Docker & Docker Compose để đóng gói đồng bộ các dịch vụ, giúp việc cài đặt và triển khai nhanh chóng thông qua các script tự động
+- Kết nối Internet: Cần thiết để truy xuất dữ liệu thời gian thực từ các nguồn dữ liệu liên kết như OpenAQ, OpenStreetMap và Wikidata
+
+### B. Hạ tầng kỹ thuật & Cơ sở dữ liệu
+- Context Broker: Orion-LD (hỗ trợ tiêu chuẩn NGSI-LD của ETSI) để quản lý dữ liệu đô thị theo ngữ cảnh thời gian thực
+- Semantic Storage: GraphDB hoặc Apache Jena Fuseki để lưu trữ bộ ba RDF và thực hiện các truy vấn SPARQL liên nguồn
+- Cấu trúc dữ liệu: Mô hình hóa dữ liệu cảm biến (AQI, nhiệt độ) dựa trên ontology SOSA/SSN của W3C
+
+### C. Yêu cầu về mã nguồn và công cụ xây dựng
+- Ngôn ngữ & Framework: Node.js (v18+), Python (v3.10+)
+- Quản lý phụ thuộc: Sử dụng các công cụ chuẩn như npm/yarn hoặc pip
+- Đóng gói sản phẩm: Ứng dụng hỗ trợ đóng gói phân phối theo phiên bản (v1.0.0) giúp việc thiết lập lại trên môi trường mới dễ dàng
+
+### D. Giao diện người dùng 
+Trải nghiệm dành cho cư dân:
+- Mục tiêu là cung cấp một công cụ hỗ trợ quyết định cá nhân hóa về chất lượng sống ngay trên lòng bàn tay
+- Bản đồ nhiệt chất lượng sống (Livability Heatmap): Tích hợp dịch vụ bản đồ số của bên thứ ba để hiển thị các lớp dữ liệu trực quan về AQI, mật độ cây xanh và tiện ích công cộng theo thời gian thực
+
+Thẻ thông tin: 
+- Khi người dùng chạm vào một địa điểm (ví dụ: một di tích hoặc công viên), ứng dụng sẽ truy xuất dữ liệu từ Wikidata/DBpedia để hiển thị thông tin chi tiết về lịch sử và văn hóa thông qua định danh URI
+
+Bộ lọc tìm kiếm thông minh: 
+- Cho phép người dùng lọc các khu vực theo nhu cầu sức khỏe (ví dụ: "Tìm nơi có AQI < 50 và có sân chơi trẻ em") dựa trên các truy vấn SPARQL ngầm định
+
+Thông báo khẩn: 
+- Cảnh báo tức thời khi chất lượng không khí tại vị trí hiện tại của người dùng chuyển sang mức nguy hại dựa trên dữ liệu từ OpenAQ
+
+
 
