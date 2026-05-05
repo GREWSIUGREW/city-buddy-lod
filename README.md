@@ -66,22 +66,22 @@ Dự án đề xuất xây dựng một bản đồ số giúp tổng hợp và 
 | Phát hiện vấn đề | Xác định các khu vực có rủi ro cao: ô nhiễm, quá tải dân cư, thiếu tiện ích. |
 | Báo cáo & trực quan hóa | Xuất báo cáo, biểu đồ và bản đồ phục vụ phân tích và quản lý. |
 
-##Kiến trúc hệ thống 
+## Kiến trúc hệ thống 
 
-A. Lớp Tích hợp Dữ liệu 
+A. Lớp tích hợp dữ liệu 
 Đây là nơi thu thập và chuẩn hóa dữ liệu từ các nguồn mở khác nhau:
 - Dữ liệu Môi trường: Thu thập từ OpenAQ thông qua API. Các quan sát về AQI được mô hình hóa theo ontology SOSA/SSN để mô tả chi tiết các cảm biến và kết quả quan sát
 - Dữ liệu Hạ tầng & Tiện ích: Khai thác từ OpenStreetMap (OSM) Overpass API. Các thực thể địa lý (công viên, bệnh viện...) được định danh bằng mã URI duy nhất
 - Dữ liệu Kinh tế - Xã hội: Truy vấn từ Wikidata qua SPARQL endpoint để lấy thông tin về mật độ dân cư và giá thành khu vực
 - Dữ liệu Giao thông: Tích hợp các bộ dữ liệu GTFS thực tế
 
-B. Lớp Tri thức và Lưu trữ 
+B. Lớp tri thức và lưu trữ 
 - Chuẩn hóa dữ liệu: Sử dụng định dạng JSON-LD/RDF để lưu trữ. Mọi dữ liệu đều tuân thủ các mô hình chuẩn từ FiWARE Smart Data Models
 - Cơ chế liên kết (Linking): Thiết lập các mối quan hệ ngữ nghĩa giữa các nguồn dữ liệu (Ví dụ: Liên kết một tọa độ từ OSM với trạm đo AQI gần nhất từ OpenAQ và thông tin dân cư từ Wikidata) để đạt LOD mức độ 5
 
 - API Giao tiếp: Xây dựng cổng chia sẻ dữ liệu dựa trên tiêu chuẩn NGSI-LD của ETSI, cho phép truy xuất dữ liệu đô thị theo ngữ cảnh thời gian thực
 
-C. Lớp Ứng dụng và Trình diễn 
+C. Lớp ứng dụng và trình diễn 
 - Web/Mobile App: Giao diện tương tác cho Người dân (Bản đồ xanh, Gợi ý cá nhân hóa) và Dashboard cho Nhà quản lý (Phân tích xu hướng, Hỗ trợ quy hoạch)
 - Cổng truy vấn SPARQL: Cung cấp điểm cuối (endpoint) cho phép các Nhà phát triển thực hiện các truy vấn tri thức phức tạp liên miền
 
